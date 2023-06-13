@@ -12,24 +12,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.Alignment
 import com.zenzo.zenzo.SetTimer
+import com.zenzo.zenzo.BreathingPattern
 
 @Composable
 fun MeditationOptionsScreen() {
     Column(modifier = Modifier.padding(16.dp)) {
-        // Number picker
         var duration by remember { mutableStateOf(13) }
-        SetTimer(value = duration, onValueChange = { duration = it })
+        SetTimer(duration = duration, onDurationChange = { duration = it })
 
-        // Breathing patterns
         var selectedPattern by remember { mutableStateOf(BreathingPattern.BALANCE) }
         BreathingPattern.values().forEach { pattern ->
-            RadioButton(
-                selected = selectedPattern == pattern,
-                onClick = { selectedPattern = pattern },
-                text = pattern.name
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RadioButton(
+                    selected = selectedPattern == pattern,
+                    onClick = { selectedPattern = pattern }
+                )
+                Text(text = pattern.name)
+            }
         }
+
 
         // Start button
         Button(onClick = { startMeditation(duration, selectedPattern) }) {
