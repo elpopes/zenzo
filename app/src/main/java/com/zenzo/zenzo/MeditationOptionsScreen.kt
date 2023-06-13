@@ -14,8 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.Alignment
-import com.zenzo.zenzo.SetTimer
-import com.zenzo.zenzo.BreathingPattern
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.core.os.bundleOf
+
+
 
 @Composable
 fun MeditationOptionsScreen() {
@@ -43,6 +48,10 @@ fun MeditationOptionsScreen() {
 }
 
 fun startMeditation(duration: Int, pattern: BreathingPattern) {
-    // Here you would navigate to a new screen with the animation
+    val bundle = bundleOf(
+        "duration" to duration,
+        "pattern" to pattern.name
+    )
+    navController.navigate("meditationScreen", bundle)
 }
 
