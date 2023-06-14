@@ -1,8 +1,8 @@
 package com.zenzo.zenzo
 
-import androidx.compose.material3.Slider
+import androidx.compose.material.Slider
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 
 @Composable
 fun SetTimer(duration: Int, onDurationChange: (Int) -> Unit) {

@@ -1,11 +1,11 @@
 package com.zenzo.zenzo
 
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.RadioButton
+import androidx.compose.material.Button
+import androidx.compose.material.RadioButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,7 +23,7 @@ import androidx.core.os.bundleOf
 
 
 @Composable
-fun MeditationOptionsScreen() {
+fun MeditationOptionsScreen(navController: NavController) {
     Column(modifier = Modifier.padding(16.dp)) {
         var duration by remember { mutableStateOf(13) }
         SetTimer(duration = duration, onDurationChange = { duration = it })
@@ -39,19 +39,17 @@ fun MeditationOptionsScreen() {
             }
         }
 
-
         // Start button
-        Button(onClick = { startMeditation(duration, selectedPattern) }) {
+        Button(onClick = { startMeditation(duration, selectedPattern, navController) }) {
             Text("Start")
         }
     }
 }
 
-fun startMeditation(duration: Int, pattern: BreathingPattern) {
-    val bundle = bundleOf(
-        "duration" to duration,
-        "pattern" to pattern.name
-    )
-    navController.navigate("meditationScreen", bundle)
+fun startMeditation(duration: Int, pattern: BreathingPattern, navController: NavController) {
+    val route = "meditationScreen/duration=$duration&pattern=${pattern.name}"
+    navController.navigate(route)
 }
+
+
 
