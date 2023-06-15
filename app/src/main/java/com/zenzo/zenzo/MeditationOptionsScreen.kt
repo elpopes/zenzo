@@ -15,6 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,27 +28,39 @@ import androidx.core.os.bundleOf
 
 @Composable
 fun MeditationOptionsScreen(navController: NavController) {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize() // Fill the entire screen
+            .background(Color.Blue) // Set background color to blue
+    ) {
         var duration by remember { mutableStateOf(13) }
-        SetTimer(duration = duration, onDurationChange = { duration = it })
+        Box(modifier = Modifier.padding(16.dp)) {
+            SetTimer(duration = duration, onDurationChange = { duration = it })
+        }
 
         var selectedPattern by remember { mutableStateOf(BreathingPattern.BALANCE) }
         BreathingPattern.values().forEach { pattern ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                RadioButton(
-                    selected = selectedPattern == pattern,
-                    onClick = { selectedPattern = pattern }
-                )
-                Text(text = pattern.name)
+            Box(modifier = Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = selectedPattern == pattern,
+                        onClick = { selectedPattern = pattern }
+                    )
+                    Text(text = pattern.name, color = Color.White) // Set text color to white
+                }
             }
         }
 
         // Start button
-        Button(onClick = { startMeditation(duration, selectedPattern, navController) }) {
-            Text("Start")
+        Box(modifier = Modifier.padding(16.dp)) {
+            Button(onClick = { startMeditation(duration, selectedPattern, navController) }) {
+                Text("Start", color = Color.White) // Set text color to white
+            }
         }
     }
 }
+
+
 
 fun startMeditation(duration: Int, pattern: BreathingPattern, navController: NavController) {
     val route = "meditationScreen/duration=$duration&pattern=${pattern.name}"
