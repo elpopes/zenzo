@@ -19,10 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Box
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.core.os.bundleOf
+
 
 
 
@@ -51,7 +48,7 @@ fun MeditationOptionsScreen(navController: NavController) {
             }
         }
 
-        // Start button
+
         Box(modifier = Modifier.padding(16.dp)) {
             Button(onClick = { startMeditation(duration, selectedPattern, navController) }) {
                 Text("Start", color = Color.White) // Set text color to white
