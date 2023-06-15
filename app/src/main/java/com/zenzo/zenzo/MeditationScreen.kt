@@ -15,9 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import kotlinx.coroutines.delay
+import androidx.navigation.NavController
 
 @Composable
-fun MeditationScreen(duration: Int, pattern: BreathingPattern) {
+fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
     val meditationTimeInSeconds = duration * 60
     val meditationTimePassed = remember { mutableStateOf(0) }
     val animationState = remember { mutableStateOf(AnimationState.INHALE) }
@@ -42,7 +43,7 @@ fun MeditationScreen(duration: Int, pattern: BreathingPattern) {
                 }
             }
         } else {
-            // TODO: Navigate back to options screen
+            navController.popBackStack()
         }
     }
 
