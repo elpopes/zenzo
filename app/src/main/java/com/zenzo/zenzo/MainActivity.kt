@@ -22,8 +22,12 @@ class MainActivity : ComponentActivity() {
                     val pattern = BreathingPattern.valueOf(patternName)
                     MeditationScreen(navController = navController, duration = duration, pattern = pattern)
                 }
+                composable("completion") {
+                    CompletionScreen()
+                }
             }
         }
     }
 }
+
 

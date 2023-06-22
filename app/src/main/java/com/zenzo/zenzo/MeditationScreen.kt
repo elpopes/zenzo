@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import android.view.WindowManager
 import android.app.Activity
 import androidx.compose.runtime.DisposableEffect
+import android.content.Context
 
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
@@ -32,6 +33,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     val context = LocalContext.current
     val activity = context as Activity
+    val sharedPreferences = context.getSharedPreferences("com.zenzo.zenzo", Context.MODE_PRIVATE)
 
     DisposableEffect(Unit) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -68,7 +70,14 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                 }
             }
         } else {
-            navController.popBackStack()
+            if (meditationTimePassed.value >= meditationTimeInSeconds) {
+                val editor = sharedPreferences.edit()
+                val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
+                editor.putInt("consecutiveDays", consecutiveDays + 1)
+                editor.apply()
+
+                navController.navigate("completion")
+            }
         }
     }
 
@@ -92,5 +101,4 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 enum class AnimationState {
     INHALE, HOLD_INHALE, EXHALE
 }
-
 
