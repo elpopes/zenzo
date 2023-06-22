@@ -23,24 +23,42 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     val meditationTimeInSeconds = duration * 60
     val meditationTimePassed = remember { mutableStateOf(0) }
     val animationState = remember { mutableStateOf(AnimationState.EXHALE) }
+    val targetValue = remember { mutableStateOf(25f) }
+    val animationDuration = remember { mutableStateOf(0) }
 
     LaunchedEffect(key1 = meditationTimePassed.value) {
+        delay(animationDuration.value.toLong())
+        meditationTimePassed.value += pattern.hold
+
         if (meditationTimePassed.value < meditationTimeInSeconds) {
             when (animationState.value) {
-                AnimationState.INHALE -> {
+                AnimationState.EXHALE -> {
+                    targetValue.value = 350f
+                    animationDuration.value = pattern.inhale * 1000
+                    animationState.value = AnimationState.HOLD_INHALE
                     delay((pattern.inhale * 1000).toLong())
-                    animationState.value = AnimationState.HOLD
                     meditationTimePassed.value += pattern.inhale
                 }
-                AnimationState.HOLD -> {
-                    delay((pattern.hold * 1000).toLong())
+                AnimationState.HOLD_INHALE -> {
+                    targetValue.value = 25f
+                    animationDuration.value = pattern.exhale * 1000
                     animationState.value = AnimationState.EXHALE
+                    delay((pattern.hold * 1000).toLong())
                     meditationTimePassed.value += pattern.hold
                 }
-                AnimationState.EXHALE -> {
-                    delay((pattern.exhale * 1000).toLong())
+                AnimationState.HOLD_EXHALE -> {
+                    targetValue.value = 350f
+                    animationDuration.value = pattern.inhale * 1000
                     animationState.value = AnimationState.INHALE
-                    meditationTimePassed.value += pattern.exhale
+                    delay((pattern.hold * 1000).toLong())
+                    meditationTimePassed.value += pattern.hold
+                }
+                AnimationState.INHALE -> {
+                    targetValue.value = 25f
+                    animationDuration.value = pattern.exhale * 1000
+                    animationState.value = AnimationState.HOLD_EXHALE
+                    delay((pattern.inhale * 1000).toLong())
+                    meditationTimePassed.value += pattern.inhale
                 }
             }
         } else {
@@ -49,15 +67,8 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     }
 
     val circleSize = animateFloatAsState(
-        targetValue = when (animationState.value) {
-            AnimationState.INHALE, AnimationState.HOLD -> 350f
-            AnimationState.EXHALE -> 25f
-        },
-        animationSpec = when (animationState.value) {
-            AnimationState.INHALE -> tween(durationMillis = pattern.inhale * 1000)
-            AnimationState.HOLD -> tween(durationMillis = pattern.hold * 1000)
-            AnimationState.EXHALE -> tween(durationMillis = pattern.exhale * 1000)
-        }
+        targetValue = targetValue.value,
+        animationSpec = tween(durationMillis = animationDuration.value)
     )
 
     Box(
@@ -73,6 +84,6 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 }
 
 enum class AnimationState {
-    INHALE, HOLD, EXHALE
+    INHALE, HOLD_INHALE, EXHALE, HOLD_EXHALE
 }
 
