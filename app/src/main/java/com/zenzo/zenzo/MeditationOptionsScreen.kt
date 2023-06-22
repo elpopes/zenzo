@@ -19,19 +19,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Box
-
-
+import androidx.compose.material.ButtonDefaults
 
 
 @Composable
 fun MeditationOptionsScreen(navController: NavController) {
     Column(
         modifier = Modifier
-            .fillMaxSize() // Fill the entire screen
-            .background(Color.Blue) // Set background color to blue
+            .fillMaxSize()
+            .background(Color.Blue)
     ) {
         var duration by remember { mutableStateOf(13) }
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(24.dp)) {
             SetTimer(duration = duration, onDurationChange = { duration = it })
         }
 
@@ -50,9 +49,18 @@ fun MeditationOptionsScreen(navController: NavController) {
 
 
         Box(modifier = Modifier.padding(16.dp)) {
-            Button(onClick = { startMeditation(duration, selectedPattern, navController) }) {
-                Text("Start", color = Color.White) // Set text color to white
+            Button(
+                onClick = { startMeditation(duration, selectedPattern, navController) },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Black,
+                    contentColor = Color.White,
+                    disabledBackgroundColor = Color.Gray,
+                    disabledContentColor = Color.White,
+                )
+            ) {
+                Text("Start", color = Color.White)
             }
+
         }
     }
 }

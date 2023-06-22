@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
     val meditationTimeInSeconds = duration * 60
     val meditationTimePassed = remember { mutableStateOf(0) }
-    val animationState = remember { mutableStateOf(AnimationState.INHALE) }
+    val animationState = remember { mutableStateOf(AnimationState.EXHALE) }
 
     LaunchedEffect(key1 = meditationTimePassed.value) {
         if (meditationTimePassed.value < meditationTimeInSeconds) {

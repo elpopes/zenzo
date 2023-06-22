@@ -1,7 +1,6 @@
 package com.zenzo.zenzo.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -10,18 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFF1F1F1F),
-    secondary = Color(0xFF3C4043)
+    primary = Color.Black, // Change primary color to black
+    secondary = Color.White // Change secondary color to white
 )
 
 private val LightColorPalette = lightColors(
-    primary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF202124)
+    primary = Color.Black, // Change primary color to black
+    secondary = Color.White // Change secondary color to white
 )
 
 @Composable
