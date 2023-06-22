@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import kotlinx.coroutines.delay
 import androidx.navigation.NavController
 
@@ -49,8 +50,8 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     val circleSize = animateFloatAsState(
         targetValue = when (animationState.value) {
-            AnimationState.INHALE, AnimationState.HOLD -> 300f
-            AnimationState.EXHALE -> 100f
+            AnimationState.INHALE, AnimationState.HOLD -> 350f
+            AnimationState.EXHALE -> 25f
         },
         animationSpec = when (animationState.value) {
             AnimationState.INHALE -> tween(durationMillis = pattern.inhale * 1000)
@@ -59,7 +60,12 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         }
     )
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentAlignment = Alignment.Center
+    ) {
         Canvas(modifier = Modifier.size(circleSize.value.dp)) {
             drawCircle(color = Color.Blue)
         }
