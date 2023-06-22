@@ -40,15 +40,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                     meditationTimePassed.value += pattern.inhale
                 }
                 AnimationState.HOLD_INHALE -> {
-                    targetValue.value = 25f
-                    animationDuration.value = pattern.exhale * 1000
-                    animationState.value = AnimationState.EXHALE
-                    delay((pattern.hold * 1000).toLong())
-                    meditationTimePassed.value += pattern.hold
-                }
-                AnimationState.HOLD_EXHALE -> {
-                    targetValue.value = 350f
-                    animationDuration.value = pattern.inhale * 1000
+                    animationDuration.value = pattern.hold * 1000
                     animationState.value = AnimationState.INHALE
                     delay((pattern.hold * 1000).toLong())
                     meditationTimePassed.value += pattern.hold
@@ -56,9 +48,9 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                 AnimationState.INHALE -> {
                     targetValue.value = 25f
                     animationDuration.value = pattern.exhale * 1000
-                    animationState.value = AnimationState.HOLD_EXHALE
-                    delay((pattern.inhale * 1000).toLong())
-                    meditationTimePassed.value += pattern.inhale
+                    animationState.value = AnimationState.EXHALE
+                    delay((pattern.exhale * 1000).toLong())
+                    meditationTimePassed.value += pattern.exhale
                 }
             }
         } else {
@@ -84,6 +76,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 }
 
 enum class AnimationState {
-    INHALE, HOLD_INHALE, EXHALE, HOLD_EXHALE
+    INHALE, HOLD_INHALE, EXHALE
 }
+
 

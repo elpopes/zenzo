@@ -48,12 +48,12 @@ fun MeditationOptionsScreen(navController: NavController) {
                     RadioButton(
                         selected = selectedPattern == pattern,
                         onClick = { selectedPattern = pattern },
-                        colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.White) // Change color to white
+                        colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.White)
                     )
                     Text(
                         text = pattern.name,
                         color = Color.White, // Set text color to white
-                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold) // Increase font size
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     )
                 }
             }
@@ -69,11 +69,11 @@ fun MeditationOptionsScreen(navController: NavController) {
                     disabledBackgroundColor = Color.Gray,
                     disabledContentColor = Color.White,
                 ),
-                modifier = Modifier.fillMaxWidth(), // Fill the width of the parent
-                contentPadding = PaddingValues(16.dp), // Add padding inside the button
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
                 content = {
                     Text(
-                        "Start",
+                        "Begin",
                         color = Color.White,
                         style = TextStyle(fontSize = 22.sp), // Increase font size
                         modifier = Modifier.fillMaxWidth(), // Fill the width of the button
