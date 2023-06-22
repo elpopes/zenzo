@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,9 +44,14 @@ fun MeditationOptionsScreen(navController: NavController) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
                         selected = selectedPattern == pattern,
-                        onClick = { selectedPattern = pattern }
+                        onClick = { selectedPattern = pattern },
+                        colors = RadioButtonDefaults.colors(selectedColor = Color.White, unselectedColor = Color.White) // Change color to white
                     )
-                    Text(text = pattern.name, color = Color.White) // Set text color to white
+                    Text(
+                        text = pattern.name,
+                        color = Color.White, // Set text color to white
+                        style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold) // Increase font size
+                    )
                 }
             }
         }
