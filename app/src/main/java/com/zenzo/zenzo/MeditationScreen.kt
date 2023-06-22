@@ -17,6 +17,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import kotlinx.coroutines.delay
 import androidx.navigation.NavController
+import androidx.compose.ui.platform.LocalContext
+import android.view.WindowManager
+import android.app.Activity
+import androidx.compose.runtime.DisposableEffect
 
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
@@ -25,6 +29,16 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     val animationState = remember { mutableStateOf(AnimationState.EXHALE) }
     val targetValue = remember { mutableStateOf(25f) }
     val animationDuration = remember { mutableStateOf(0) }
+
+    val context = LocalContext.current
+    val activity = context as Activity
+
+    DisposableEffect(Unit) {
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose {
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 
     LaunchedEffect(key1 = meditationTimePassed.value) {
         delay(animationDuration.value.toLong())
