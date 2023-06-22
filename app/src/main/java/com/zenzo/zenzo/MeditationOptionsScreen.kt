@@ -24,6 +24,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.text.style.TextAlign
 
 
 @Composable
@@ -65,11 +68,19 @@ fun MeditationOptionsScreen(navController: NavController) {
                     contentColor = Color.White,
                     disabledBackgroundColor = Color.Gray,
                     disabledContentColor = Color.White,
-                )
-            ) {
-                Text("Start", color = Color.White)
-            }
-
+                ),
+                modifier = Modifier.fillMaxWidth(), // Fill the width of the parent
+                contentPadding = PaddingValues(16.dp), // Add padding inside the button
+                content = {
+                    Text(
+                        "Start",
+                        color = Color.White,
+                        style = TextStyle(fontSize = 22.sp), // Increase font size
+                        modifier = Modifier.fillMaxWidth(), // Fill the width of the button
+                        textAlign = TextAlign.Center // Center the text
+                    )
+                }
+            )
         }
     }
 }
