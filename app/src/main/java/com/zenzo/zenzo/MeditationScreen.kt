@@ -22,6 +22,7 @@ import android.view.WindowManager
 import android.app.Activity
 import androidx.compose.runtime.DisposableEffect
 import android.content.Context
+import org.threeten.bp.LocalDate
 
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
@@ -42,7 +43,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     LaunchedEffect(key1 = duration) {
         val cycleTime = pattern.inhale + pattern.hold + pattern.exhale
-        val cyclesNeeded = (meditationTimeInSeconds / cycleTime).toInt()
+        val cyclesNeeded = (meditationTimeInSeconds / cycleTime)
 
         for (i in 0 until cyclesNeeded) {
             targetValue.value = 350f
@@ -57,11 +58,24 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             delay((pattern.exhale * 1000).toLong())
         }
 
-        val editor = sharedPreferences.edit()
-        val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
-        editor.putInt("consecutiveDays", consecutiveDays + 1)
-        editor.apply()
+        // Get the current date
+        val currentDate = LocalDate.now()
 
+        // Get the date of the last meditation session
+        val lastMeditationDate = LocalDate.parse(
+            sharedPreferences.getString("lastMeditationDate", currentDate.toString())
+        )
+
+        // If the current date is different from the last meditation date, increment consecutiveDays
+        if (currentDate != lastMeditationDate) {
+            val editor = sharedPreferences.edit()
+            val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
+            editor.putInt("consecutiveDays", consecutiveDays + 1)
+            editor.putString("lastMeditationDate", currentDate.toString())
+            editor.apply()
+        }
+
+        // Navigate to CompletionScreen
         navController.navigate("completion")
     }
 

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.zenzo.zenzo'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.zenzo.zenzo"
@@ -64,4 +64,5 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.3.1'
 }
