@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     MeditationScreen(navController = navController, duration = duration, pattern = pattern)
                 }
                 composable("completion") {
-                    CompletionScreen()
+                    CompletionScreen(navController = navController)
                 }
             }
         }

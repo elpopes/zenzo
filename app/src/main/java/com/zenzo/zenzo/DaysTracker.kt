@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.Text
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ConsecutiveDaysTracker() {
@@ -16,6 +16,7 @@ fun ConsecutiveDaysTracker() {
 
     Text(
         text = "Consecutive Days: $consecutiveDays",
-        style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        style = TextStyle(fontSize = 24.sp),
+        color = Color.White,
     )
 }

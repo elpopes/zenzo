@@ -26,8 +26,6 @@ import android.content.Context
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
     val meditationTimeInSeconds = duration * 60
-    val meditationTimePassed = remember { mutableStateOf(0) }
-    val animationState = remember { mutableStateOf(AnimationState.EXHALE) }
     val targetValue = remember { mutableStateOf(25f) }
     val animationDuration = remember { mutableStateOf(0) }
 
@@ -42,43 +40,29 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         }
     }
 
-    LaunchedEffect(key1 = meditationTimePassed.value) {
-        delay(animationDuration.value.toLong())
-        meditationTimePassed.value += pattern.hold
+    LaunchedEffect(key1 = duration) {
+        val cycleTime = pattern.inhale + pattern.hold + pattern.exhale
+        val cyclesNeeded = (meditationTimeInSeconds / cycleTime).toInt()
 
-        if (meditationTimePassed.value < meditationTimeInSeconds) {
-            when (animationState.value) {
-                AnimationState.EXHALE -> {
-                    targetValue.value = 350f
-                    animationDuration.value = pattern.inhale * 1000
-                    animationState.value = AnimationState.HOLD_INHALE
-                    delay((pattern.inhale * 1000).toLong())
-                    meditationTimePassed.value += pattern.inhale
-                }
-                AnimationState.HOLD_INHALE -> {
-                    animationDuration.value = pattern.hold * 1000
-                    animationState.value = AnimationState.INHALE
-                    delay((pattern.hold * 1000).toLong())
-                    meditationTimePassed.value += pattern.hold
-                }
-                AnimationState.INHALE -> {
-                    targetValue.value = 25f
-                    animationDuration.value = pattern.exhale * 1000
-                    animationState.value = AnimationState.EXHALE
-                    delay((pattern.exhale * 1000).toLong())
-                    meditationTimePassed.value += pattern.exhale
-                }
-            }
-        } else {
-            if (meditationTimePassed.value >= meditationTimeInSeconds) {
-                val editor = sharedPreferences.edit()
-                val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
-                editor.putInt("consecutiveDays", consecutiveDays + 1)
-                editor.apply()
+        for (i in 0 until cyclesNeeded) {
+            targetValue.value = 350f
+            animationDuration.value = pattern.inhale * 1000
+            delay((pattern.inhale * 1000).toLong())
 
-                navController.navigate("completion")
-            }
+            animationDuration.value = pattern.hold * 1000
+            delay((pattern.hold * 1000).toLong())
+
+            targetValue.value = 25f
+            animationDuration.value = pattern.exhale * 1000
+            delay((pattern.exhale * 1000).toLong())
         }
+
+        val editor = sharedPreferences.edit()
+        val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
+        editor.putInt("consecutiveDays", consecutiveDays + 1)
+        editor.apply()
+
+        navController.navigate("completion")
     }
 
     val circleSize = animateFloatAsState(
@@ -98,7 +82,4 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     }
 }
 
-enum class AnimationState {
-    INHALE, HOLD_INHALE, EXHALE
-}
 
