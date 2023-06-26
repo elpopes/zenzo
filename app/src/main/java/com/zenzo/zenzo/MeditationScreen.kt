@@ -63,7 +63,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         Log.d("MeditationScreen", "Current date: $currentDate")
 
         val lastMeditationDate = LocalDate.parse(
-            sharedPreferences.getString("lastMeditationDate", currentDate.toString())
+            sharedPreferences.getString("lastMeditationDate", "2000-01-01")
         )
         Log.d("MeditationScreen", "Last meditation date: $lastMeditationDate")
 
