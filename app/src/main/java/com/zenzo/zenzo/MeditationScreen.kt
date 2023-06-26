@@ -23,6 +23,7 @@ import android.app.Activity
 import androidx.compose.runtime.DisposableEffect
 import android.content.Context
 import org.threeten.bp.LocalDate
+import android.util.Log
 
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
@@ -58,24 +59,31 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             delay((pattern.exhale * 1000).toLong())
         }
 
-        // Get the current date
         val currentDate = LocalDate.now()
+        Log.d("MeditationScreen", "Current date: $currentDate")
 
-        // Get the date of the last meditation session
         val lastMeditationDate = LocalDate.parse(
             sharedPreferences.getString("lastMeditationDate", currentDate.toString())
         )
+        Log.d("MeditationScreen", "Last meditation date: $lastMeditationDate")
 
-        // If the current date is different from the last meditation date, increment consecutiveDays
-        if (currentDate != lastMeditationDate) {
-            val editor = sharedPreferences.edit()
+        val nextDayAfterLastSession = lastMeditationDate.plusDays(1)
+
+        val editor = sharedPreferences.edit()
+        if (currentDate == lastMeditationDate) {
+            Log.d("MeditationScreen", "Current date is the same as the last session, doing nothing")
+        } else if (currentDate == nextDayAfterLastSession) {
             val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
+            Log.d("MeditationScreen", "Current date is the day after the last session, incrementing consecutiveDays from $consecutiveDays")
             editor.putInt("consecutiveDays", consecutiveDays + 1)
             editor.putString("lastMeditationDate", currentDate.toString())
-            editor.apply()
+        } else {
+            Log.d("MeditationScreen", "Current date is not the day after the last session, resetting consecutiveDays to 1")
+            editor.putInt("consecutiveDays", 1)
+            editor.putString("lastMeditationDate", currentDate.toString())
         }
+        editor.apply()
 
-        // Navigate to CompletionScreen
         navController.navigate("completion")
     }
 
