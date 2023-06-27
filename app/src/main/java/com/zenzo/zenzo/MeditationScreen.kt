@@ -43,7 +43,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     }
 
     LaunchedEffect(key1 = duration) {
-        val cycleTime = pattern.inhale + pattern.hold + pattern.exhale
+        val cycleTime = pattern.inhale + pattern.holdIn + pattern.exhale + pattern.holdOut
         val cyclesNeeded = (meditationTimeInSeconds / cycleTime)
 
         for (i in 0 until cyclesNeeded) {
@@ -51,12 +51,15 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             animationDuration.value = pattern.inhale * 1000
             delay((pattern.inhale * 1000).toLong())
 
-            animationDuration.value = pattern.hold * 1000
-            delay((pattern.hold * 1000).toLong())
+            animationDuration.value = pattern.holdIn * 1000
+            delay((pattern.holdIn * 1000).toLong())
 
             targetValue.value = 25f
             animationDuration.value = pattern.exhale * 1000
             delay((pattern.exhale * 1000).toLong())
+
+            animationDuration.value = pattern.holdOut * 1000
+            delay((pattern.holdOut * 1000).toLong())
         }
 
         val currentDate = LocalDate.now()
