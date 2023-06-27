@@ -103,7 +103,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.size(circleSize.value.dp)) {
-            drawCircle(color = Color.Blue)
+            drawCircle(color = Color(0xFF87CEFA))
         }
     }
 }
