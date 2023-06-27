@@ -24,6 +24,7 @@ import androidx.compose.runtime.DisposableEffect
 import android.content.Context
 import org.threeten.bp.LocalDate
 import android.util.Log
+import kotlin.math.ceil
 
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
@@ -44,7 +45,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     LaunchedEffect(key1 = duration) {
         val cycleTime = pattern.inhale + pattern.holdIn + pattern.exhale + pattern.holdOut
-        val cyclesNeeded = (meditationTimeInSeconds / cycleTime)
+        val cyclesNeeded = ceil(meditationTimeInSeconds.toDouble() / cycleTime).toInt()
 
         for (i in 0 until cyclesNeeded) {
             targetValue.value = 350f
