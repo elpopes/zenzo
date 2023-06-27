@@ -5,6 +5,9 @@
             <solid android:color="#333036" />
         </shape>
     </item>
-
-    <!-- Add your logo item here if you have one -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher_round" />
+    </item>
 </layer-list>
