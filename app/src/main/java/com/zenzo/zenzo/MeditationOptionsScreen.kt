@@ -36,6 +36,13 @@ fun MeditationOptionsScreen(navController: NavController) {
             .fillMaxSize()
             .background(Color.Blue)
     ) {
+        Text(
+            text = "Meditation Tracker:",
+            color = Color.White,
+            style = TextStyle(fontSize = 18.sp),
+            modifier = Modifier.padding(16.dp)
+        )
+        ConsecutiveDaysTracker(modifier = Modifier.padding(start = 16.dp))
         var duration by remember { mutableStateOf(13) }
         Box(modifier = Modifier.padding(24.dp)) {
             SetTimer(duration = duration, onDurationChange = { duration = it })
