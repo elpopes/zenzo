@@ -36,6 +36,9 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     val activity = context as Activity
     val sharedPreferences = context.getSharedPreferences("com.zenzo.zenzo", Context.MODE_PRIVATE)
 
+    val holdInActive = remember { mutableStateOf(false) }
+    val holdOutActive = remember { mutableStateOf(false) }
+
     DisposableEffect(Unit) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         onDispose {
@@ -47,14 +50,17 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         val cycleTime = pattern.inhale + pattern.holdIn + pattern.exhale + pattern.holdOut
         val cyclesNeeded = ceil(meditationTimeInSeconds.toDouble() / cycleTime).toInt()
 
+
         for (i in 0 until cyclesNeeded) {
             targetValue.value = 350f
             animationDuration.value = pattern.inhale * 1000
             delay((pattern.inhale * 1000).toLong())
 
             if (pattern.holdIn > 0) {
+                holdInActive.value = true
                 animationDuration.value = pattern.holdIn * 1000
                 delay((pattern.holdIn * 1000).toLong())
+                holdInActive.value = false
             }
 
             targetValue.value = 25f
@@ -62,8 +68,10 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             delay((pattern.exhale * 1000).toLong())
 
             if (pattern.holdOut > 0) {
+                holdOutActive.value = true
                 animationDuration.value = pattern.holdOut * 1000
                 delay((pattern.holdOut * 1000).toLong())
+                holdOutActive.value = false
             }
         }
 
@@ -102,6 +110,11 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.size(circleSize.value.dp)) {
+            if (holdInActive.value) {
+                drawCircle(color = Color.White, radius = 475f)
+            } else if (holdOutActive.value) {
+                drawCircle(color = Color.White, radius = 39f)
+            }
             drawCircle(color = Color(0xFF87CEFA))
         }
     }
