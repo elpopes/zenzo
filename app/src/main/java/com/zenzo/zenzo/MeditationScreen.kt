@@ -64,25 +64,20 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         }
 
         val currentDate = LocalDate.now()
-        Log.d("MeditationScreen", "Current date: $currentDate")
 
         val lastMeditationDate = LocalDate.parse(
             sharedPreferences.getString("lastMeditationDate", "2000-01-01")
         )
-        Log.d("MeditationScreen", "Last meditation date: $lastMeditationDate")
 
         val nextDayAfterLastSession = lastMeditationDate.plusDays(1)
 
         val editor = sharedPreferences.edit()
         if (currentDate == lastMeditationDate) {
-            Log.d("MeditationScreen", "Current date is the same as the last session, doing nothing")
         } else if (currentDate == nextDayAfterLastSession) {
             val consecutiveDays = sharedPreferences.getInt("consecutiveDays", 0)
-            Log.d("MeditationScreen", "Current date is the day after the last session, incrementing consecutiveDays from $consecutiveDays")
             editor.putInt("consecutiveDays", consecutiveDays + 1)
             editor.putString("lastMeditationDate", currentDate.toString())
         } else {
-            Log.d("MeditationScreen", "Current date is not the day after the last session, resetting consecutiveDays to 1")
             editor.putInt("consecutiveDays", 1)
             editor.putString("lastMeditationDate", currentDate.toString())
         }
