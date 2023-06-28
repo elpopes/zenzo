@@ -52,15 +52,19 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             animationDuration.value = pattern.inhale * 1000
             delay((pattern.inhale * 1000).toLong())
 
-            animationDuration.value = pattern.holdIn * 1000
-            delay((pattern.holdIn * 1000).toLong())
+            if (pattern.holdIn > 0) {
+                animationDuration.value = pattern.holdIn * 1000
+                delay((pattern.holdIn * 1000).toLong())
+            }
 
             targetValue.value = 25f
             animationDuration.value = pattern.exhale * 1000
             delay((pattern.exhale * 1000).toLong())
 
-            animationDuration.value = pattern.holdOut * 1000
-            delay((pattern.holdOut * 1000).toLong())
+            if (pattern.holdOut > 0) {
+                animationDuration.value = pattern.holdOut * 1000
+                delay((pattern.holdOut * 1000).toLong())
+            }
         }
 
         val currentDate = LocalDate.now()
