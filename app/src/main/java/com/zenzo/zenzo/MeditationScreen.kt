@@ -24,6 +24,9 @@ import androidx.compose.runtime.DisposableEffect
 import android.content.Context
 import org.threeten.bp.LocalDate
 import android.util.Log
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.RadialGradient
 import kotlin.math.ceil
 
 @Composable
@@ -38,6 +41,8 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     val holdInActive = remember { mutableStateOf(false) }
     val holdOutActive = remember { mutableStateOf(false) }
+    val holdInAlpha = animateFloatAsState(if (holdInActive.value) 1f else 0f)
+    val holdOutAlpha = animateFloatAsState(if (holdOutActive.value) 1f else 0f)
 
     DisposableEffect(Unit) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -111,11 +116,25 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     ) {
         Canvas(modifier = Modifier.size(circleSize.value.dp)) {
             if (holdInActive.value) {
-                drawCircle(color = Color.White, radius = 475f)
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.White.copy(alpha = holdInAlpha.value), Color.Transparent),
+                        center = Offset(circleSize.value / 2, circleSize.value / 2),
+                        radius = circleSize.value / 2
+                    ),
+                    radius = circleSize.value / 2
+                )
             } else if (holdOutActive.value) {
-                drawCircle(color = Color.White, radius = 39f)
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.White.copy(alpha = holdOutAlpha.value), Color.Transparent),
+                        center = Offset(circleSize.value / 2, circleSize.value / 2),
+                        radius = circleSize.value / 2
+                    ),
+                    radius = circleSize.value / 2
+                )
             }
-            drawCircle(color = Color(0xFF87CEFA))
+//            drawCircle(color = Color(0xFF87CEFA))
         }
     }
 }
