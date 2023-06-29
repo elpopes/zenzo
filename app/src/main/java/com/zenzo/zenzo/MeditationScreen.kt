@@ -71,8 +71,8 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
         for (i in 0 until cyclesNeeded) {
             targetValue.value = 350f
-            animationDuration.value = pattern.inhale * 1000
-            delay((pattern.inhale * 1000).toLong())
+            animationDuration.value = (pattern.inhale * 1000f).toInt()
+            delay((pattern.inhale * 1000f).toLong())
 
             if (pattern.holdIn > 0) {
                 holdInActive.value = true
@@ -80,12 +80,12 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                     delay((pattern.holdIn * 1000 - 500).toLong())
                     holdInActive.value = false
                 }
-                delay((pattern.holdIn * 1000).toLong())
+                delay((pattern.holdIn * 1000f).toLong())
             }
 
             targetValue.value = 25f
-            animationDuration.value = pattern.exhale * 1000
-            delay((pattern.exhale * 1000).toLong())
+            animationDuration.value = (pattern.exhale * 1000f).toInt()
+            delay((pattern.exhale * 1000f).toLong())
 
             if (pattern.holdOut > 0) {
                 holdOutActive.value = true
@@ -93,7 +93,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                     delay((pattern.holdOut * 1000 - 500).toLong())
                     holdOutActive.value = false
                 }
-                delay((pattern.holdOut * 1000).toLong())
+                delay((pattern.holdOut * 1000f).toLong())
             }
         }
 
