@@ -42,8 +42,16 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     val holdInActive = remember { mutableStateOf(false) }
     val holdOutActive = remember { mutableStateOf(false) }
-    val holdInAlpha = animateFloatAsState(if (holdInActive.value) 1f else 0f)
-    val holdOutAlpha = animateFloatAsState(if (holdOutActive.value) 1f else 0f)
+
+    val holdInAlpha = animateFloatAsState(
+        targetValue = if (holdInActive.value) 1f else 0f,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    val holdOutAlpha = animateFloatAsState(
+        targetValue = if (holdOutActive.value) 1f else 0f,
+        animationSpec = tween(durationMillis = 500)
+    )
 
     DisposableEffect(Unit) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
