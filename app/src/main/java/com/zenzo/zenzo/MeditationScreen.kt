@@ -46,9 +46,6 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     val holdInActive = remember { mutableStateOf(false) }
     val holdOutActive = remember { mutableStateOf(false) }
 
-    val holdInEndTime = remember { mutableStateOf(0L) }
-    val holdOutEndTime = remember { mutableStateOf(0L) }
-
     val scope = rememberCoroutineScope()
 
     val holdInAlpha = animateFloatAsState(
@@ -80,10 +77,10 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             if (pattern.holdIn > 0) {
                 holdInActive.value = true
                 scope.launch {
-                    delay((pattern.holdIn * 1000 - 500).toLong()) // subtract the length of the fade-out animation
+                    delay((pattern.holdIn * 1000 - 500).toLong())
                     holdInActive.value = false
                 }
-                delay((pattern.holdIn * 1000).toLong()) // wait for the hold phase to complete
+                delay((pattern.holdIn * 1000).toLong())
             }
 
             targetValue.value = 25f
@@ -93,10 +90,10 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             if (pattern.holdOut > 0) {
                 holdOutActive.value = true
                 scope.launch {
-                    delay((pattern.holdOut * 1000 - 500).toLong()) // subtract the length of the fade-out animation
+                    delay((pattern.holdOut * 1000 - 500).toLong())
                     holdOutActive.value = false
                 }
-                delay((pattern.holdOut * 1000).toLong()) // wait for the hold phase to complete
+                delay((pattern.holdOut * 1000).toLong())
             }
         }
 
@@ -168,8 +165,6 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             drawCircle(center = centerOffset, color = Color(0xFF87CEFA), radius = circleSizeInPixels / 2)
         }
     }
-
-
 }
 
 
