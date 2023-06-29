@@ -24,11 +24,14 @@ import androidx.compose.runtime.DisposableEffect
 import android.content.Context
 import org.threeten.bp.LocalDate
 import android.util.Log
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RadialGradient
 import androidx.compose.ui.platform.LocalDensity
 import kotlin.math.ceil
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
@@ -42,6 +45,11 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
     val holdInActive = remember { mutableStateOf(false) }
     val holdOutActive = remember { mutableStateOf(false) }
+
+    val holdInEndTime = remember { mutableStateOf(0L) }
+    val holdOutEndTime = remember { mutableStateOf(0L) }
+
+    val scope = rememberCoroutineScope()
 
     val holdInAlpha = animateFloatAsState(
         targetValue = if (holdInActive.value) 1f else 0f,
@@ -64,7 +72,6 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         val cycleTime = pattern.inhale + pattern.holdIn + pattern.exhale + pattern.holdOut
         val cyclesNeeded = ceil(meditationTimeInSeconds.toDouble() / cycleTime).toInt()
 
-
         for (i in 0 until cyclesNeeded) {
             targetValue.value = 350f
             animationDuration.value = pattern.inhale * 1000
@@ -72,9 +79,11 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
             if (pattern.holdIn > 0) {
                 holdInActive.value = true
-                animationDuration.value = pattern.holdIn * 1000
-                delay((pattern.holdIn * 1000).toLong())
-                holdInActive.value = false
+                scope.launch {
+                    delay((pattern.holdIn * 1000 - 500).toLong()) // subtract the length of the fade-out animation
+                    holdInActive.value = false
+                }
+                delay((pattern.holdIn * 1000).toLong()) // wait for the hold phase to complete
             }
 
             targetValue.value = 25f
@@ -83,9 +92,11 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
             if (pattern.holdOut > 0) {
                 holdOutActive.value = true
-                animationDuration.value = pattern.holdOut * 1000
-                delay((pattern.holdOut * 1000).toLong())
-                holdOutActive.value = false
+                scope.launch {
+                    delay((pattern.holdOut * 1000 - 500).toLong()) // subtract the length of the fade-out animation
+                    holdOutActive.value = false
+                }
+                delay((pattern.holdOut * 1000).toLong()) // wait for the hold phase to complete
             }
         }
 
@@ -111,6 +122,8 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
 
         navController.navigate("completion")
     }
+
+
 
     val circleSize = animateFloatAsState(
         targetValue = targetValue.value,
