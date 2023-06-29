@@ -27,6 +27,7 @@ import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RadialGradient
+import androidx.compose.ui.platform.LocalDensity
 import kotlin.math.ceil
 
 @Composable
@@ -114,30 +115,36 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
+        val density = LocalDensity.current
+        val holdInGradientSizeInPixels = with(density) { (circleSize.value.dp / 2 + 150.dp).toPx() }
+        val holdOutGradientSizeInPixels = with(density) { (circleSize.value.dp / 2 + 50.dp).toPx() }
+
         Canvas(modifier = Modifier.size(circleSize.value.dp)) {
             if (holdInActive.value) {
                 drawCircle(
                     brush = Brush.radialGradient(
                         colors = listOf(Color.White.copy(alpha = holdInAlpha.value), Color.Transparent),
                         center = Offset(circleSize.value / 2, circleSize.value / 2),
-                        radius = circleSize.value / 2 + 100f
+                        radius = holdInGradientSizeInPixels
                     ),
-                    radius = circleSize.value / 2 + 100f
+                    radius = holdInGradientSizeInPixels
                 )
             } else if (holdOutActive.value) {
                 drawCircle(
                     brush = Brush.radialGradient(
                         colors = listOf(Color.White.copy(alpha = holdOutAlpha.value), Color.Transparent),
                         center = Offset(circleSize.value / 2, circleSize.value / 2),
-                        radius = circleSize.value / 2 + 100f
+                        radius = holdOutGradientSizeInPixels
                     ),
-                    radius = circleSize.value / 2 + 100f
+                    radius = holdOutGradientSizeInPixels
                 )
             }
 
             drawCircle(color = Color(0xFF87CEFA))
         }
     }
+
+
 }
 
 
