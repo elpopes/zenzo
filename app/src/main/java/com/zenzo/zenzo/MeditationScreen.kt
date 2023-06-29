@@ -120,21 +120,22 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                     brush = Brush.radialGradient(
                         colors = listOf(Color.White.copy(alpha = holdInAlpha.value), Color.Transparent),
                         center = Offset(circleSize.value / 2, circleSize.value / 2),
-                        radius = circleSize.value / 2
+                        radius = circleSize.value / 2 + 100f
                     ),
-                    radius = circleSize.value / 2
+                    radius = circleSize.value / 2 + 100f
                 )
             } else if (holdOutActive.value) {
                 drawCircle(
                     brush = Brush.radialGradient(
                         colors = listOf(Color.White.copy(alpha = holdOutAlpha.value), Color.Transparent),
                         center = Offset(circleSize.value / 2, circleSize.value / 2),
-                        radius = circleSize.value / 2
+                        radius = circleSize.value / 2 + 100f
                     ),
-                    radius = circleSize.value / 2
+                    radius = circleSize.value / 2 + 100f
                 )
             }
-//            drawCircle(color = Color(0xFF87CEFA))
+
+            drawCircle(color = Color(0xFF87CEFA))
         }
     }
 }
