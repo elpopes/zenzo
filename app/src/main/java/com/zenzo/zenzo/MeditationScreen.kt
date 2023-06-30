@@ -1,5 +1,6 @@
 package com.zenzo.zenzo
 
+import BreathingPattern
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -128,7 +129,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         )
 
         val holdOutGradientSize = animateFloatAsState(
-            targetValue = if (holdOutActive.value) circleSize.value * 2f else circleSize.value * 0.1f,
+            targetValue = if (holdOutActive.value) circleSize.value * 3f else circleSize.value * 0.1f,
             animationSpec = tween(durationMillis = 500)
         )
 
@@ -159,7 +160,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
                 radius = holdOutGradientSizePixels / 2
             )
 
-            drawCircle(center = centerOffset, color = Color(0xFF87CEFA), radius = circleSizeInPixels / 2)
+            drawCircle(center = centerOffset, color = pattern.color, radius = circleSizeInPixels / 2)
         }
     }
 }
