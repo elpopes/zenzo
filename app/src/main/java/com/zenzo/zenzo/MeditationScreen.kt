@@ -32,7 +32,6 @@ import androidx.compose.ui.platform.LocalDensity
 import kotlin.math.ceil
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun MeditationScreen(navController: NavController, duration: Int, pattern: BreathingPattern) {
     val meditationTimeInSeconds = duration * 60
@@ -47,16 +46,6 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
     val holdOutActive = remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
-
-    val holdInAlpha = animateFloatAsState(
-        targetValue = if (holdInActive.value) 1f else 0f,
-        animationSpec = tween(durationMillis = 500)
-    )
-
-    val holdOutAlpha = animateFloatAsState(
-        targetValue = if (holdOutActive.value) 1f else 0f,
-        animationSpec = tween(durationMillis = 500)
-    )
 
     DisposableEffect(Unit) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -120,8 +109,6 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         navController.navigate("completion")
     }
 
-
-
     val circleSize = animateFloatAsState(
         targetValue = targetValue.value,
         animationSpec = tween(durationMillis = animationDuration.value)
@@ -133,38 +120,46 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
             .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
-        val holdInGradientSizeInPixels = with(LocalDensity.current) { circleSize.value.dp.toPx() * 1.5f}
-        val holdOutGradientSizeInPixels = with(LocalDensity.current) { circleSize.value.dp.toPx() * 2f}
         val circleSizeInPixels = with(LocalDensity.current) { circleSize.value.dp.toPx() }
+
+        val holdInGradientSize = animateFloatAsState(
+            targetValue = if (holdInActive.value) circleSize.value * 1.5f else circleSize.value * 0.1f,
+            animationSpec = tween(durationMillis = 500)
+        )
+
+        val holdOutGradientSize = animateFloatAsState(
+            targetValue = if (holdOutActive.value) circleSize.value * 2f else circleSize.value * 0.1f,
+            animationSpec = tween(durationMillis = 500)
+        )
+
+        val holdInGradientSizePixels = with(LocalDensity.current) { holdInGradientSize.value.dp.toPx() }
+        val holdOutGradientSizePixels = with(LocalDensity.current) { holdOutGradientSize.value.dp.toPx() }
 
         Canvas(modifier = Modifier.size(circleSize.value.dp)) {
             val center = size / 2f
             val centerOffset = Offset(center.width, center.height)
-            if (holdInActive.value) {
-                drawCircle(
-                    brush = Brush.radialGradient(
-                        colors = listOf(Color.White.copy(alpha = holdInAlpha.value), Color.Transparent),
-                        center = centerOffset,
-                        radius = holdInGradientSizeInPixels / 2
-                    ),
+
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Color.White, Color.Transparent),
                     center = centerOffset,
-                    radius = holdInGradientSizeInPixels / 2
-                )
-            } else if (holdOutActive.value) {
-                drawCircle(
-                    brush = Brush.radialGradient(
-                        colors = listOf(Color.White.copy(alpha = holdOutAlpha.value), Color.Transparent),
-                        center = centerOffset,
-                        radius = holdOutGradientSizeInPixels / 2
-                    ),
+                    radius = holdInGradientSizePixels / 2
+                ),
+                center = centerOffset,
+                radius = holdInGradientSizePixels / 2
+            )
+
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Color.White, Color.Transparent),
                     center = centerOffset,
-                    radius = holdOutGradientSizeInPixels / 2
-                )
-            }
+                    radius = holdOutGradientSizePixels / 2
+                ),
+                center = centerOffset,
+                radius = holdOutGradientSizePixels / 2
+            )
 
             drawCircle(center = centerOffset, color = Color(0xFF87CEFA), radius = circleSizeInPixels / 2)
         }
     }
 }
-
-
