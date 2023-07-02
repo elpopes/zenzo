@@ -124,7 +124,7 @@ fun MeditationScreen(navController: NavController, duration: Int, pattern: Breat
         val circleSizeInPixels = with(LocalDensity.current) { circleSize.value.dp.toPx() }
 
         val holdInGradientSize = animateFloatAsState(
-            targetValue = if (holdInActive.value) circleSize.value * 1.5f else circleSize.value * 0.1f,
+            targetValue = if (holdInActive.value) circleSize.value * 2f else circleSize.value * 0.1f,
             animationSpec = tween(durationMillis = 500)
         )
 
