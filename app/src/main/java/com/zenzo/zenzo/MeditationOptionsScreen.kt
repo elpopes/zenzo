@@ -1,6 +1,5 @@
 package com.zenzo.zenzo
 
-import BreathingPattern
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Column

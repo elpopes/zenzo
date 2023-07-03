@@ -1,6 +1,5 @@
 package com.zenzo.zenzo
 
-import BreathingPattern
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -24,11 +23,9 @@ import android.app.Activity
 import androidx.compose.runtime.DisposableEffect
 import android.content.Context
 import org.threeten.bp.LocalDate
-import android.util.Log
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.RadialGradient
 import androidx.compose.ui.platform.LocalDensity
 import kotlin.math.ceil
 import kotlinx.coroutines.launch
